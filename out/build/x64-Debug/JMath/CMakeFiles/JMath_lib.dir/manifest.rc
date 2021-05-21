@@ -1,0 +1,2 @@
+#pragma code_page(65001)
+2 /* CREATEPROCESS_MANIFEST_RESOURCE_ID */ 24 /* RT_MANIFEST */ "C:/Users/ZoroD/source/repos/RayMarchingPipeline/out/build/x64-Debug/JMath/CMakeFiles/JMath_lib.dir/embed.manifest"

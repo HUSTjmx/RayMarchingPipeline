@@ -1,0 +1,14 @@
+﻿# CMakeList.txt: RayMarchingPipeline 的 CMake 项目，在此处包括源代码并定义
+# 项目特定的逻辑。
+#
+cmake_minimum_required (VERSION 3.8)
+
+aux_source_directory(. MAINLOOP_SRC)
+
+include_directories(${JMATH_DIR})
+include_directories(${JSHAPE_DIR})
+# 将源代码添加到此项目的可执行文件。
+add_executable (RayMarchingPipeline ${MAINLOOP_SRC})
+
+#target_link_libraries(RayMarchingPipeline JMath_lib)
+# TODO: 如有需要，请添加测试并安装目标。
