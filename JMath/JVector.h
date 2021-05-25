@@ -2,6 +2,8 @@
 
 #include <assert.h>
 #include <iostream>
+#include "Eigen/Dense"
+using namespace Eigen;
 
 template<typename T>
 class JVector2{
@@ -19,7 +21,7 @@ public:
 	}
 
 	JVector2& operator=(const JVector2<T>& v){
-		ASSERT(!v.HasNaNs());
+		assert(!v.HasNaNs());
 		x = v.X();
 		y = v.Y();
 		return *this;
@@ -57,6 +59,10 @@ public:
 	JVector2<T> operator*(const T f)const {
 		return JVector2<T>(x * f, y * f);
 	}
+
+	JVector2<T> operator*(T (&ar)[2])const{
+		return JVector2<T>(x * ar[0], y * ar[1]);
+	}
 	
 	JVector2<T>& operator*=(const T f){
 		x *= f;
@@ -66,7 +72,12 @@ public:
 
 	JVector2<T> operator/(const T f)const {
 		assert(f != 0);
-		return JVector2<T>(x / f, y / f);
+		T inv = 1.0 / f;
+		return JVector2<T>(x * inv, y / inv);
+	}
+
+	JVector2<T> operator/(T(&a)[2])const {
+		return JVector2<T>(x / a[0], y / a[1]);
 	}
 
 	JVector2<T>& operator/=(const T f) {
@@ -129,7 +140,7 @@ public:
 	JVector3(T xx,T yy,T zz):x(xx),y(yy),z(zz){}
 
 	JVector3(const JVector3<T>& v){
-		assert(v.HasNaNs());
+		assert(!v.HasNaNs());
 		x = v.X();
 		y = v.Y();
 		z = v.Z();
@@ -244,15 +255,15 @@ public:
 	}
 
 
-	T X()const noexcept {
+	T X(int i = 0)const noexcept {
 		return x;
 	}
 
-	T Y()const noexcept {
+	T Y(int i = 0)const noexcept {
 		return y;
 	}
 
-	T Z()const noexcept {
+	T Z(int i = 0)const noexcept {
 		return z;
 	}
 
@@ -396,19 +407,19 @@ public:
 	}
 
 
-	T X()const noexcept {
+	T X(int i = 0)const noexcept {
 		return x;
 	}
 
-	T Y()const noexcept {
+	T Y(int i = 0)const noexcept {
 		return y;
 	}
 
-	T Z()const noexcept {
+	T Z(int i = 0)const noexcept {
 		return z;
 	}
 
-	T W()const noexcept {
+	T W(int i = 0)const noexcept {
 		return w;
 	}
 
@@ -457,24 +468,25 @@ inline T AbsDot(const JVector4<T>& v1, const JVector4<T>& v2) {
 	return std::abs(Dot(v1, v2));
 }
 
+namespace JMX {
+	//叉乘
+	template<typename T>
+	inline JVector3<T> Cross(const JVector2<T>& v1, const JVector2<T>& v2)
+	{
+		double v1x = v1.X(), v1y = v1.Y();
+		double v2x = v2.X(), v2y = v2.Y();
+		double z = v1x * v2y - v2x * v1y;
+		return JVector3<T>(0, 0, z);
+	}
 
-//叉乘
-template<typename T>
-inline JVector3<T> Cross(const JVector2<T>& v1, const JVector2<T>& v2)
-{
-	double v1x = v1.X(), v1y = v1.Y();
-	double v2x = v2.X(), v2y = v2.Y();
-	double z = v1x * v2y - v2x * v1y;
-	return JVector3<T>(0, 0, z);
-}
-
-template<typename T>
-inline JVector3<T> Cross(const JVector3<T>& v1, const JVector3<T>& v2) {
-	double v1x = v1.X(), v1y = v1.Y(), v1z = v1.Z();
-	double v2x = v2.X(), v2y = v2.Y(), v2z = v2.Z();
-	return JVector3<T>((v1y * v2z) - (v1z * v2y),
-		(v1z * v2x) - (v1x * v2z),
-		(v1x * v2y) - (v1y * v2x));	
+	template<typename T>
+	inline JVector3<T> Cross(const JVector3<T>& v1, const JVector3<T>& v2) {
+		double v1x = v1.X(), v1y = v1.Y(), v1z = v1.Z();
+		double v2x = v2.X(), v2y = v2.Y(), v2z = v2.Z();
+		return JVector3<T>((v1y * v2z) - (v1z * v2y),
+			(v1z * v2x) - (v1x * v2z),
+			(v1x * v2y) - (v1y * v2x));
+	}
 }
 
 
@@ -570,6 +582,15 @@ float Length(const JVector3<T>& v) {
 template<typename T>
 float Length(const JVector2<T>& v) {
 	return v.Length();
+}
+
+//JVector、Eigen Vector 相互转换
+JVector3f Ev2Jv(const Vector3f& v) {
+	return JVector3f(v[0], v[1], v[2]);
+}
+
+Vector3f Jv2Ev(const JVector3f& v) {
+	return Vector3f(v[0], v[1], v[2]);
 }
 
 //对于法线

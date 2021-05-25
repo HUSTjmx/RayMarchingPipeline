@@ -62,6 +62,10 @@ public:
 		return JPoint2<T>(x * f, y * f);
 	}
 
+	JPoint2<T> operator*(T (&a)[2])const {
+		return JPoint2<T>(x * a[0], y * a[1]);
+	}
+
 	JPoint2<T>& operator*=(const T f) {
 		x *= f;
 		y *= f;
@@ -71,6 +75,10 @@ public:
 	JPoint2<T> operator/(const T f)const {
 		assert(f != 0);
 		return JPoint2<T>(x / f, y / f);
+	}
+
+	JPoint2<T> operator/(T(&a)[2])const {
+		return JPoint2<T>(x / a[0], y / a[1]);
 	}
 
 	JPoint2<T>& operator/=(const T f) {

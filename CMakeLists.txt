@@ -16,10 +16,14 @@ set(JMAINLOOP ${PROJECT_SOURCE_DIR}/RayMarchingPipeline)
 set(EIGEN_DIR ${PROJECT_SOURCE_DIR}/eigen-3.3.9)
 set(JMATERIAL_DIR ${PROJECT_SOURCE_DIR}/JMaterial)
 set(JSCENE_DIR ${PROJECT_SOURCE_DIR}/JScene)
+set(JSAMPLE_DIR ${PROJECT_SOURCE_DIR}/JSample)
+set(JSETUP_DIR ${PROJECT_SOURCE_DIR}/JSetup)
+set(JINTEGRATOR_DIR ${PROJECT_SOURCE_DIR}/JIntegrator)
 
 include_directories(${EIGEN_DIR})
 
-include_directories(${JMATH_DIR} ${JMAINLOOP} ${JERROR_DIR} ${JMATERIAL_DIR} ${JSCENE_DIR})
+include_directories(${JMATH_DIR} ${JMAINLOOP} ${JERROR_DIR} ${JMATERIAL_DIR} ${JSCENE_DIR} ${JSAMPLE_DIR}
+					${JSETUP_DIR} ${JINTEGRATOR_DIR})
 
 # 包含子项目。
 add_subdirectory ("JMath")

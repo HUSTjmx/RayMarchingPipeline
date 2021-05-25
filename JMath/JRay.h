@@ -3,9 +3,9 @@
 
 class JRay {
 public:
-	JRay() : tMax(Infinity) {}
+	JRay() : tMax(J_Infinity) {}
 
-	JRay(const JPoint3f& oo, const JVector3f& dd, float t_max = Infinity) :
+	JRay(const JPoint3f& oo, const JVector3f& dd, float t_max = J_Infinity) :
 		o(oo), d(dd), tMax(t_max) {}
 
 	JPoint3f operator()(float t)const
@@ -18,20 +18,19 @@ public:
 	}
 
 	friend std::ostream& operator<<(std::ostream& os, const JRay& r){
-		os << "[o=" << r.O() << ", d=" << r.D() << ", tMax=" << tMax << "]";
+		os << "[o=" << r.O() << ", d=" << r.D() << ", tMax=" << r.T_MAX() << "]";
 		return os;
 	}
 
-	JPoint3f O(){
+	JPoint3f O()const{
 		return o;
 	}
 
-	JVector3f D(){
+	JVector3f D()const{
 		return d;
 	}
 
-	float T_MAX()
-	{
+	float T_MAX() const{
 		return tMax;
 	}
 

@@ -6,6 +6,7 @@
 #include "JShape.h"
 #include "JTransform.h"
 #include "JShapeProcessLine.h"
+#include "JIntegrator.h"
 
 //using namespace Eigen;
 using namespace std;
@@ -29,6 +30,16 @@ int main()
 	float sdf = spl.Do(p, *s1);
 
 	std::cout << sdf << " | "<< s1->sdFunc(p) << endl;
+
+	/*-----------------------------------------*/
+	JSample sample{};
+	sample.init();
+	JCamera camera(JVector3f(0.0f, 0.0f, -1.0f), JVector3f(0.0f, 0.0f, 1.0f), 0.0f);
+	//std::cout<< sample.getSampleAuto()<< std::endl;
+	
+	JIntegrator integrator(sample, camera);
+	std::cout<<integrator.Render(JPoint2f(3.0f, 3.0f))<<std::endl;
+
 	std::cout << "Hello CMake." << endl;
 	int c;
 	cin >> c;
