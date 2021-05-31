@@ -101,7 +101,7 @@ build cmake_object_order_depends_target_RayMarchingPipeline: phony || RayMarchin
 
 build RayMarchingPipeline\CMakeFiles\RayMarchingPipeline.dir\RayMarchingPipeline.cpp.obj: CXX_COMPILER__RayMarchingPipeline_Debug ..\..\..\RayMarchingPipeline\RayMarchingPipeline.cpp || cmake_object_order_depends_target_RayMarchingPipeline
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
-  INCLUDES = -I..\..\..\eigen-3.3.9 -I..\..\..\JMath -I..\..\..\RayMarchingPipeline -I..\..\..\JError -I..\..\..\JMaterial -I..\..\..\JScene -I..\..\..\JSample -I..\..\..\JSetup -I..\..\..\JIntegrator -I..\..\..\JModel
+  INCLUDES = -I..\..\..\eigen-3.3.9 -I..\..\..\JMath -I..\..\..\RayMarchingPipeline -I..\..\..\JError -I..\..\..\JMaterial -I..\..\..\JScene -I..\..\..\JSample -I..\..\..\JSetup -I..\..\..\JIntegrator -I..\..\..\JShader -I..\..\..\ThirdParty -I..\..\..\JModel
   OBJECT_DIR = RayMarchingPipeline\CMakeFiles\RayMarchingPipeline.dir
   OBJECT_FILE_DIR = RayMarchingPipeline\CMakeFiles\RayMarchingPipeline.dir
   TARGET_COMPILE_PDB = RayMarchingPipeline\CMakeFiles\RayMarchingPipeline.dir\

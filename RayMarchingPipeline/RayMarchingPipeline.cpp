@@ -7,41 +7,51 @@
 #include "JTransform.h"
 #include "JShapeProcessLine.h"
 #include "JIntegrator.h"
+#include "JFilm.h"
+#include "svpng.inc"
+#include "JShader.h"
 
 //using namespace Eigen;
 using namespace std;
 
 int main()
 {
-	Matrix4f m;
-	JTransform tm(m);
-	JPoint3f a(0.0f, 0.0f, 0.0f);
-	JShape3D* s1 = new JSphere(a, 1.0);
+	JModel model1;
+	auto shape1 = std::make_shared<JSphere>(JPoint3f(0.0, 0.0, 6.0), 0.7);
+	shape1.get()->setShader(phongShader);
 
-	std::shared_ptr<ShapeDecorator> sd1 = std::make_shared<opScale>(2.);
-	std::shared_ptr<ShapeDecorator> sd2 = std::make_shared<opScale>(0.5);
+	auto shape2 = std::make_shared<JSphere>(JPoint3f(2.0, 2.0, 6.0), 1.0);
+	shape2.get()->setShader(phongShader);
 
-	JShapeProcessLine spl;
-	spl.add(sd1);
-	//spl.add(sd2);
+	model1.add(shape1,
+		std::make_shared<JMaterial>(JVector3f(0.4,0.0,0.0),1.0),
+		std::make_shared<JShapeProcessLine>(),
+		0
+		);
+	model1.add(shape2,
+		std::make_shared<JMaterial>(JVector3f(0.0, 0.6, 0.0), 1.0),
+		std::make_shared<JShapeProcessLine>(),
+		0
+	);
 
-	JPoint3f p(0.0f, 2.0f, 0.0f);
-
-	float sdf = spl.Do(p, *s1);
-
-	std::cout << sdf << " | "<< s1->sdFunc(p) << endl;
+	auto m1 = std::make_shared<JModel>(model1);
 
 	/*-----------------------------------------*/
+	JScene scene;
+	scene.addActor(m1);
+
+	auto dirL1 = std::make_shared<JPunctalLight>(JVector3f(0.8,0.6,0.8), JVector3f(0.0,0.0,1.0));
+	scene.addLight(dirL1);
+
 	JSample sample{};
 	sample.init();
 	JCamera camera(JVector3f(0.0f, 0.0f, -1.0f), JVector3f(0.0f, 0.0f, 1.0f), 0.0f);
-	//std::cout<< sample.getSampleAuto()<< std::endl;
-	
 	JIntegrator integrator(sample, camera);
-	std::cout<<integrator.Render(JPoint2f(3.0f, 3.0f))<<std::endl;
 
-	std::cout << "Hello CMake." << endl;
-	int c;
-	cin >> c;
-	return 0;
+	JFilm film;
+	film.Do(integrator, scene);
+	film.ToPPM("C:\\Users\\ZoroD\\Desktop\\2222\\Image.ppm");
+
+
+
 }

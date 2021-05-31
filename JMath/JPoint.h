@@ -164,12 +164,12 @@ public:
 
 	JPoint3<T> operator+(const JPoint3<T>& v) const
 	{
-		return JPoint3<T>(x + v.X(), y + v.Y(), z + v.Y());
+		return JPoint3<T>(x + v.X(), y + v.Y(), z + v.Z());
 	}
 
 	JPoint3<T> operator+(const JVector3<T>& v) const
 	{
-		return JPoint3<T>(x + v.X(), y + v.Y(), z + v.Y());
+		return JPoint3<T>(x + v.X(), y + v.Y(), z + v.Z());
 	}
 
 	JPoint3<T>& operator+=(const JPoint3<T>& v)
@@ -182,7 +182,7 @@ public:
 
 	JVector3<T> operator-(const JPoint3<T>& v) const
 	{
-		return JVector3<T>(x - v.X(), y - v.Y(), z - v.Y());
+		return JVector3<T>(x - v.X(), y - v.Y(), z - v.Z());
 	}
 
 	JPoint3<T>& operator-=(const JVector3<T>& v)

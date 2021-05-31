@@ -3,6 +3,7 @@
 #include <cmath>
 #include "JPoint.h"
 #include "JConstants.h"
+#include "JShader.h"
 
 
 class JShape {
@@ -15,6 +16,8 @@ public:
 	* @version 1.2,2021-05-20
 	*/
 	virtual float sdFunc(const JPoint3f& p) const = 0;
+
+	std::shared_ptr<JShader> shader;
 };
 
 /*
@@ -118,6 +121,10 @@ public:
 
 	virtual float sdFunc(const JPoint3f& p)const override { return 0.0f; }
 
+	void setShader(std::shared_ptr<JShader> sh) {
+		shader = sh;
+	}
+
 	JPoint3f pos;
 };
 
@@ -146,7 +153,7 @@ public:
 	float sdFunc(const JPoint3f& p)const override {
 		JVector3f v = p - pos;
 		JVector3f q = Abs(v) - diagonal;
-		return Length(Max(q, 0.0)) + std::min(std::max(q.X(), std::max(v.Y(), v.Z())), 0.0f);
+		return Length(Max(q, 0.0)) + std::min(std::max(q.X(), std::max(q.Y(), q.Z())), 0.0f);
 	}
 
 	friend std::ostream& operator<<(std::ostream& os, const JBox3D& jb) {

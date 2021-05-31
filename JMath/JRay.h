@@ -1,11 +1,11 @@
 #include "JPoint.h"
 #include "JConstants.h"
-
+#include "JSetup.h"
 class JRay {
 public:
 	JRay() : tMax(J_Infinity) {}
 
-	JRay(const JPoint3f& oo, const JVector3f& dd, float t_max = J_Infinity) :
+	JRay(const JPoint3f& oo, const JVector3f& dd, float t_max = JSetup::instance().RAY_MAX) :
 		o(oo), d(dd), tMax(t_max) {}
 
 	JPoint3f operator()(float t)const

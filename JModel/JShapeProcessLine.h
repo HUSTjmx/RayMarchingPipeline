@@ -108,6 +108,7 @@ public:
 			temp_p = (*it).get()->SolvePos(temp_p);
 
 		float sdf = shape.sdFunc(temp_p);
+		//std::cout << sdf << " xx "<<temp_p << std::endl;
 
 		for (auto it = decorators.rbegin();it != decorators.rend();it++)
 			sdf = (*it).get()->Process(sdf);

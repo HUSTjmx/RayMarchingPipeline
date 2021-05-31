@@ -139,6 +139,8 @@ public:
 	
 	JVector3(T xx,T yy,T zz):x(xx),y(yy),z(zz){}
 
+	JVector3(T xx) :x(xx), y(xx), z(xx) {}
+
 	JVector3(const JVector3<T>& v){
 		assert(!v.HasNaNs());
 		x = v.X();
@@ -165,7 +167,7 @@ public:
 
 	JVector3<T> operator+(const JVector3<T> &v) const
 	{
-		return JVector3<T>(x + v.X(), y + v.Y(), z + v.Y());
+		return JVector3<T>(x + v.X(), y + v.Y(), z + v.Z());
 	}
 
 	JVector3<T>& operator+=(const JVector3<T>& v)
@@ -178,7 +180,7 @@ public:
 
 	JVector3<T> operator-(const JVector3<T>& v) const
 	{
-		return JVector3<T>(x - v.X(), y - v.Y(), z - v.Y());
+		return JVector3<T>(x - v.X(), y - v.Y(), z - v.Z());
 	}
 
 	JVector3<T>& operator-=(const JVector3<T>& v)
@@ -194,6 +196,11 @@ public:
 		return JVector3<T>(x * f, y * f, z * f);
 	}
 
+	JVector3<T> operator*(const JVector3<T>& v) const
+	{
+		return JVector3<T>(x * v.X(), y * v.Y(), z * v.Z());
+	}
+
 	JVector3<T>& operator*=(T f)
 	{
 		x *= f;
@@ -206,6 +213,11 @@ public:
 	{
 		assert(f != 0);
 		return JVector3<T>(x / f, y / f, z / f);
+	}
+
+	JVector3<T> operator/(const JVector3<T> v)const {
+		assert(!v.HasNaNs());
+		return JVector3<T>(x / v.X(), y / v.Y(), z / v.Z());
 	}
 
 	JVector3<T>& operator/=(T f)
@@ -311,7 +323,7 @@ public:
 
 	JVector4<T> operator+(const JVector4<T>& v) const
 	{
-		return JVector4<T>(x + v.X(), y + v.Y(), z + v.Y(), w + v.W());
+		return JVector4<T>(x + v.X(), y + v.Y(), z + v.Z(), w + v.W());
 	}
 
 	JVector4<T>& operator+=(const JVector4<T>& v)
@@ -325,7 +337,7 @@ public:
 
 	JVector4<T> operator-(const JVector4<T>& v) const
 	{
-		return JVector4<T>(x - v.X(), y - v.Y(), z - v.Y(), w - v.W());
+		return JVector4<T>(x - v.X(), y - v.Y(), z - v.Z(), w - v.W());
 	}
 
 	JVector4<T>& operator-=(const JVector4<T>& v)
@@ -571,6 +583,12 @@ template<typename T>
 JVector3<T> Abs(const JVector3<T>& v)
 {
 	return JVector3<T>(std::abs(v.X()), std::abs(v.Y()), std::abs(v.Z()));
+}
+
+//Pow
+template<typename T>
+JVector3<T> Pow(const JVector3<T>& v, T f) {
+	return JVector3<T>(std::pow(v.X(), f), std::pow(v.Y(), f), std::pow(v.Z(), f));
 }
 
 //length

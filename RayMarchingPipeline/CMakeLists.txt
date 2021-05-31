@@ -8,7 +8,7 @@ aux_source_directory(. MAINLOOP_SRC)
 include_directories(${JMATH_DIR})
 include_directories(${JSHAPE_DIR})
 # 将源代码添加到此项目的可执行文件。
-add_executable (RayMarchingPipeline ${MAINLOOP_SRC})
+add_executable (RayMarchingPipeline ${MAINLOOP_SRC} "JFilm.h")
 
 #target_link_libraries(RayMarchingPipeline JMath_lib)
 # TODO: 如有需要，请添加测试并安装目标。

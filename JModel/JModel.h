@@ -1,7 +1,8 @@
-#include "JMaterial/JMaterial.h"
+#include "JMaterial.h"
 #include "JShape.h"
 #include "JShapeProcessLine.h"
 #include "JConstants.h"
+#include "JShader.h"
 #include <memory>
 #include <vector>
 
@@ -56,6 +57,10 @@ public:
 		current_id = i;
 	}
 
+	void setRenderID(int i) {
+		render_id = i;
+	}
+
 	int current_id;
 
 private:
@@ -68,8 +73,12 @@ private:
 	float opUnion(float d1, float d2) {
 		//return std::min(d1, d2);
 		if (d1 <= d2)
+		{
+			//std::cout << current_id << std::endl;
 			return d1;
+		}
 		else {
+			//
 			render_id = current_id;
 			return d2;
 		}
@@ -151,16 +160,17 @@ private:
 };
 
 class JModel {
+public:
 	void add(std::shared_ptr<JShape> js, std::shared_ptr<JMaterial> mat, std::shared_ptr<JShapeProcessLine> jpl, int p, float kk = 0.0f){
 		shapes.push_back(js);
 		material.push_back(mat);
 		proLines.push_back(jpl);
-		patchPatterns.push_back(p);
+		patchPatterns.push_back(static_cast<PatchPattern>(p));
 		k.push_back(kk);
 	}
 
 	float SDF(const JPoint3f p){
-		float sdf = MaxFloat;
+		float sdf = J_MaxFloat;
 
 		if (shapes.empty())return sdf;
 
@@ -170,12 +180,14 @@ class JModel {
 		{
 			jpf.setCurrentID(i);
 			float d2 = proLines[i].get()->Do(p, *(shapes[i].get()));
-			sdf = jpf.Patch(sdf, d2, k[i]);
+			//std::cout << d2 << std::endl;
+			
+			sdf = jpf.Patch(sdf, d2, k[i], patchPatterns[i]);
 		}
-
 		renderId = jpf.getRenderID();
+		//std::cout << renderId << std::endl;
 		jpf.setCurrentID(0);
-
+		jpf.setRenderID(0);
 		return sdf;
 	}
 
@@ -183,15 +195,19 @@ class JModel {
 		return renderId;
 	}
 
-	JMaterial getRenderMat() {
-		return *(material[renderId].get());
+	std::shared_ptr<JMaterial> getRenderMat() const{
+		return material[renderId];
+	}
+
+	std::shared_ptr<JShader> getRenderShader() {
+		return shapes[renderId].get()->shader;
 	}
 
 private:
 	std::vector<std::shared_ptr<JShape>> shapes;
 	std::vector<std::shared_ptr<JMaterial>> material;
 	std::vector<std::shared_ptr<JShapeProcessLine>> proLines;
-	std::vector<int> patchPatterns;
+	std::vector<PatchPattern> patchPatterns;
 	std::vector<float> k;
 
 	JPatchFactory jpf;

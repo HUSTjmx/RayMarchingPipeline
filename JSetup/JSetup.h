@@ -1,3 +1,5 @@
+#pragma once
+
 class JSetup {
 public:
 
@@ -6,10 +8,16 @@ public:
 		return *instance;
 	}
 
-	float WIDTH = 1200.0f;
-    float HEIGHT = 800.0f;
+	float WIDTH = 400.0f;
+    float HEIGHT = 400.0f;
 
 	float PIXEL_SIZE[2] = { 1.f / WIDTH,1.f / HEIGHT };
+
+	int MAX_STEP = 200;
+
+	float RAY_MAX = 80.0;
+
+	float ambient = 0.04;
 
 
 private:

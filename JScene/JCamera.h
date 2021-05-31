@@ -31,7 +31,7 @@ public:
 		JVector2f bias = sample.getSampleAuto();
 		JPoint2f sample_point = (p + bias) * setup.PIXEL_SIZE;
 		JVector3f rd = mul(JVector3f(sample_point[0], sample_point[1], fl));
-		return JRay(ro, rd);
+		return JRay(ro, Normalize(rd));
 
 	}
 
